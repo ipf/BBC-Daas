@@ -1,0 +1,90 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET		/							controllers.Application.index
+
+# About sections
+GET		/about						controllers.Application.about
+GET		/about/learn				controllers.Application.learn
+GET		/about/terms				controllers.Application.terms
+
+# Buy and sell
+GET		/buy-sell					controllers.Application.buySell
+
+# Filter
+GET		/filter						controllers.Application.filter
+
+# File handling
+GET		/files						controllers.Files.upload
+GET		/files/list					controllers.Files.list
+GET		/files/:id/show				controllers.Files.show(id: ObjectId)
+GET		/api/files/download/:id.csv	controllers.Files.download(id: ObjectId)
+POST	/api/files					controllers.Files.create
+POST	/api/files/:id/delete		controllers.Files.delete(id: ObjectId)
+GET		/api/dataset/:id/show		controllers.Files.showDataset(id: String)
+
+# contact
+GET		/contact					controllers.Application.contact
+GET		/imprint					controllers.Application.imprint
+
+# visualization
+GET		/visualization				controllers.Application.visualization
+
+# analytics
+GET		/analytics					controllers.Application.analytics
+
+# mashups
+GET		/mashups					controllers.Application.mashUps
+
+# search
+POST	/search						controllers.Application.search
+
+# tags
+GET		/tag/:id					controllers.Tags.show(id: ObjectId)
+GET		/api/tags					controllers.Tags.listJson
+GET		/api/tag/update				controllers.Tags.update
+GET		/api/tag/:id/delete			controllers.Tags.delete(id: ObjectId)
+POST	/api/tag					controllers.Tags.create
+
+# categories
+GET		/api/categories				controllers.Categories.listJson
+POST	/api/category				controllers.Categories.create
+GET		/category/:id				controllers.Categories.show(id: ObjectId)
+
+# API in general
+GET		/api/documentation			controllers.Application.apiDocumentation
+
+# administration
+GET		/administration				controllers.Application.administration
+GET		/administration/tag			controllers.Tags.list
+GET		/administration/categories	controllers.Categories.list
+
+GET		/robots.txt					controllers.Assets.at(path="/public", file="robots.txt")
+
+# Map static resources from the /public folder to the /assets URL path
+GET		/assets/*file				controllers.Assets.at(path="/public", file)
+
+# secure social
+# Login page
+GET		/login						securesocial.controllers.LoginPage.login
+GET		/logout						securesocial.controllers.LoginPage.logout
+
+# User Registration and password handling (only needed if you are using UsernamePasswordProvider)
+GET		/signup						securesocial.controllers.Registration.startSignUp
+POST	/signup						securesocial.controllers.Registration.handleStartSignUp
+GET		/signup/:token				securesocial.controllers.Registration.signUp(token)
+POST	/signup/:token				securesocial.controllers.Registration.handleSignUp(token)
+GET		/reset						securesocial.controllers.Registration.startResetPassword
+POST	/reset						securesocial.controllers.Registration.handleStartResetPassword
+GET		/reset/:token				securesocial.controllers.Registration.resetPassword(token)
+POST	/reset/:token				securesocial.controllers.Registration.handleResetPassword(token)
+GET		/password					securesocial.controllers.PasswordChange.page
+POST	/password					securesocial.controllers.PasswordChange.handlePasswordChange
+
+
+# Providers entry points
+GET		/authenticate/:provider		securesocial.controllers.ProviderController.authenticate(provider)
+POST	/authenticate/:provider		securesocial.controllers.ProviderController.authenticateByPost(provider)
+GET		/not-authorized				securesocial.controllers.ProviderController.notAuthorized

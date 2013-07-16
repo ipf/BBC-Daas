@@ -1,0 +1,58 @@
+@(message: String, searchForm: Form[String], tags: Iterator[Tag], datasets: com.novus.salat.dao.SalatMongoCursor[models.Dataset])(implicit request: play.api.mvc.RequestHeader)
+
+@main(message) {
+
+<div class="row">
+	<div class="twelve columns">
+		<div class="eight columns">
+
+			<h3>Your search for <em>&raquo;@message&laquo;</em></h3>
+
+			@if(datasets.count > 0) {
+			<p>Found @datasets.count results.</p>
+			<table>
+				<thead>
+				<th>Title</th>
+				<th>Filename</th>
+				<th>Description</th>
+				<th>Downloads</th>
+				<th>Posted</th>
+				</thead>
+				<tbody>
+				@for(dataset <- datasets) {
+				<tr>
+					<td><a href="@routes.Files.show(dataset.id)">@dataset.title</a></td>
+					<td><a href="@routes.Files.download(dataset.id)" class="files-download" title="Download file @dataset.fileName">&nbsp;</a>@dataset.fileName</td>
+					<td>@dataset.description</td>
+					<td>@dataset.downloads</td>
+					<td>@dataset.uploadDate.format("yyyy-MM-dd")</td>
+				</tr>
+				}
+				</tbody>
+			</table>
+			} else {
+			<p>No datasets found matching your query.</p>
+			}
+		</div>
+		<div class="four columns">
+			<div class="row collapse">
+				@helper.form(action = routes.Application.search) {
+				<div class="eight mobile-three columns">
+					@helper.inputText(searchForm("term"), 'placeholder -> "Search term", 'type -> "search")
+				</div>
+				<div class="four mobile-one columns">
+					<input type="submit" value="search" class="postfix button expand"/>
+				</div>
+				}
+			</div>
+		</div>
+		<div class="four columns">
+			<h3>Tags</h3>
+			@tags.map { tag =>
+			<span class="cloud-@Seq.fill(1)(scala.util.Random.nextInt(10))"><a href="@routes.Tags.show(tag.id)">@tag.title</a></span>
+			}
+		</div>
+	</div>
+</div>
+
+}

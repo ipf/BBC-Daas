@@ -1,0 +1,5 @@
+@for $i from 1 through 9 {
+	.cloud-#{$i} {
+		font-size: 1em * $i * 0.3;
+	}
+}

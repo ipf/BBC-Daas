@@ -1,0 +1,56 @@
+@(message: String, datasets: com.novus.salat.dao.SalatMongoCursor[models.Dataset])(implicit flash: play.api.mvc.Flash, request: play.api.mvc.RequestHeader)
+
+@main(message) {
+
+<div class="row">
+	<div class="twelve columns">
+		<div class="twelve columns">
+			@flash.get("success").map { message =>
+			<div class="alert-box success">
+				<strong>Done!</strong> @message
+				<a href="" class="close">&times;</a>
+			</div>
+			}
+			@flash.get("fail").map { message =>
+				<div class="alert-box alert">
+					<strong>Error!</strong> @message
+					<a href="" class="close">&times;</a>
+				</div>
+			}
+			<h3>Available Datasets</h3>
+			<table>
+				<thead>
+				<th>Title</th>
+				<th>Category</th>
+				<th>Description</th>
+				<th>Downloads</th>
+				<th>Posted</th>
+				</thead>
+				<tbody>
+				@for(dataset <- datasets) {
+				<tr>
+					<td><a href="@routes.Files.show(dataset.id)">@dataset.title</a></td>
+					<td><a href="@routes.Categories.show(dataset.category.id)" title="Download file @dataset.fileName">@dataset.category.title</a></td>
+					<td>@dataset.description</td>
+					<td>@dataset.downloads</td>
+					<td>@dataset.uploadDate.format("yyyy-MM-dd")</td>
+				</tr>
+				}
+				</tbody>
+			</table>
+			<ul class="pagination">
+				<li class="arrow unavailable"><a href="">&laquo;</a></li>
+				<li class="current"><a href="">1</a></li>
+				<li><a href="">2</a></li>
+				<li><a href="">3</a></li>
+				<li><a href="">4</a></li>
+				<li class="unavailable"><a href="">&hellip;</a></li>
+				<li><a href="">12</a></li>
+				<li><a href="">13</a></li>
+				<li class="arrow"><a href="">&raquo;</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+}

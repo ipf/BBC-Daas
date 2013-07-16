@@ -1,0 +1,43 @@
+@(startForm:play.api.data.Form[String])(implicit request: play.api.mvc.RequestHeader)
+@import helper._
+@import securesocial.core.IdentityProvider
+@implicitFieldConstructor = @{ FieldConstructor(securesocial.views.html.inputFieldConstructor.f) }
+
+@views.html.main( Messages("securesocial.signup.title") ) {
+<div class="row">
+	<div class="twelve columns">
+		<div class="eight columns">
+			<div class="page-header">
+				<h2>@Messages("securesocial.signup.title")</h2>
+			</div>
+
+			@request.flash.get("error").map { msg =>
+			<div class="alert-box alert">
+				<strong>@Messages(msg)</strong>
+				<a href="" class="close">&times;</a>
+			</div>
+			}
+
+			<form action="@securesocial.core.providers.utils.RoutesHelper.handleStartSignUp().absoluteURL(IdentityProvider.sslEnabled)"
+				  class="form-horizontal"
+				  autocomplete="off" method="post"
+					>
+				<fieldset>
+					@helper.inputText(
+					startForm("email"),
+					'_label -> Messages("securesocial.signup.email1"),
+					'class -> "input-xlarge",
+					'placeholder -> Messages("securesocial.signup.email1")
+					)
+
+					<div class="form-actions">
+						<button type="submit" class="button">@Messages("securesocial.signup.createAccount")</button>
+						<a class="button" href="@securesocial.core.providers.utils.RoutesHelper.login()">@Messages("securesocial.signup.cancel")</a>
+					</div>
+
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+}

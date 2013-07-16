@@ -1,0 +1,20 @@
+@(message: String)(implicit request: play.api.mvc.RequestHeader)
+@import securesocial.core.IdentityProvider
+
+@main("Registration") {
+<div class="row">
+	<div class="twelve columns">
+		<div class="eight columns">
+			<h3>@message</h3>
+
+			<p>Registration at BBC-DaaS is fairly easy. Just use your existing GitHub or Google Account (we assume that you got one) and grant access to your user details when using one of the buttons below:</p>
+
+			<p><a class="btn-auth btn-github" href="https://github.com/login/oauth/authorize?client_id=3e22db2d878e21fc0fe5&scope=user">Sign up with GitHub</a></p>
+
+			<p><a class="btn-auth btn-google" href="https://accounts.google.com/o/oauth2/auth?client_id=765349548262-o0c3te4fp24tupgsc3skv5e69rlnuo0k.apps.googleusercontent.com&response_type=code&redirect_uri=http://localhost:9000/signup&scope=https://www.googleapis.com/auth/userinfo.email">Sign up with Google</a></p>
+
+			<p>After granting the access, we will ask you for a few more details, that we do not get from the authentication providers. Once you are registered, you can always login using the <a href="/login">Login</a> functionality.</p>
+		</div>
+	</div>
+</div>
+}

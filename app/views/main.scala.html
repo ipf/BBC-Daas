@@ -1,0 +1,106 @@
+@(title: String)(content: Html)(implicit request: play.api.mvc.RequestHeader)
+@import securesocial.core.SecureSocial
+<!DOCTYPE html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/html"> <!--<![endif]-->
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width"/>
+		<title>BBC-DaaS | @title</title>
+		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/app.css")">
+		<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/logo2.png")">
+		<script type="text/javascript" data-main="@routes.Assets.at("javascripts/main")" src="/assets/javascripts/libs/require-jquery.js"></script>
+	</head>
+    <body>
+
+	<div class="row">
+		<div class="twelve columns">
+			<nav class="top-bar">
+				<ul>
+					<!-- Title Area -->
+					<li class="name">
+						<h1><a href="@routes.Application.index"><img src="@routes.Assets.at("images/logo2.png")" alt="" style="height:20px"/> BBC-DaaS</a></h1>
+					</li>
+					<li class="toggle-topbar"><a href="#"></a></li>
+				</ul>
+				<section>
+					<!-- Left Nav Section -->
+					<ul class="left">
+						<li class="divider"></li>
+						<li><a href="@routes.Files.upload"@if(request.path.toString.equals(routes.Files.upload.toString)){ class="active"}>Upload</a></li>
+						<li class="divider hide-for-small"></li>
+						<li class="has-dropdown">
+						<a href="@routes.Application.analytics"@if(request.path.toString.equals(routes.Application.analytics.toString)){ class="active"}>Analytics</a>
+							<ul class="dropdown">
+								<li><a href="#">Geo Location Data</a></li>
+								<li><a href="#">Business Data</a></li>
+								<li><a href="#">Government</a></li>
+								<li><a href="#">Education</a></li>
+								<li><a href="@routes.Application.mashUps">Mashups</a></li>
+							</ul>
+						</li>
+						<li class="divider hide-for-small"></li>
+						<li><a href="@routes.Application.filter"@if(request.path.toString.equals(routes.Application.filter.toString)){ class="active"}>Filter</a></li>
+						<li class="divider hide-for-small"></li>
+						<li><a href="@routes.Application.visualization"@if(request.path.toString.equals(routes.Application.visualization.toString)){ class="active"}>Visualizations</a></li>
+						<li class="divider hide-for-small"></li>
+					</ul>
+
+					<!-- Right Nav Section -->
+					<ul class="right">
+						<li class="has-dropdown"><a href="@routes.Application.about"@if(request.path.toString.equals(routes.Application.about.toString)){ class="active"}>About</a>
+						<ul class="dropdown">
+							<li><a href="@routes.Application.learn">Learn</a></li>
+							<li><a href="@routes.Application.contact">Contact</a></li>
+							<li><a href="@routes.Application.terms">Terms</a></li>
+						</ul>
+						</li>
+						<li class="divider show-for-medium-and-up"></li>
+						<li class="has-dropdown">
+							<a href="#">@if(SecureSocial.currentUser.isDefined){
+								<img src="@SecureSocial.currentUser.get.avatarUrl" style="height: 43px; padding: 1px 5px 1px 0; float:left;" alt=""/>
+								}Account</a>
+							<ul class="dropdown">
+								@if(SecureSocial.currentUser.isDefined){
+									<li>
+										<a href="/logout">Logout @SecureSocial.currentUser.get.fullName</a>
+									</li>
+									<li>
+										<a href="@routes.Application.buySell">Buy & Sell</a>
+									</li>
+									<li>
+										<a href="@routes.Application.administration">Administration</a>
+									</li>
+								} else {
+									<li>
+										<a href="/login">Login</a>
+									</li>
+								}
+							</ul>
+						</li>
+					</ul>
+				</section>
+			</nav>
+		</div>
+	</div>
+	@content
+	<div class="twelve columns">
+		<footer class="row">
+			<div class="four columns centered">
+				<ul class="link-list">
+					<li><a href="@routes.Application.about">About</a></li>
+					<li><a href="@routes.Application.contact">Contact</a></li>
+					<li><a href="@routes.Application.imprint">imprint</a></li>
+				</ul>
+			</div>
+		</footer>
+	</div>
+	</body>
+</html>

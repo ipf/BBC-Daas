@@ -1,0 +1,32 @@
+@(message: String, searchForm: Form[String], tags: Iterator[Tag])(implicit request: play.api.mvc.RequestHeader)
+
+@main(message) {
+
+<div class="row">
+	<div class="twelve columns">
+		<div class="eight columns">
+
+			<h3>@message</h3>
+
+		</div>
+		<div class="four columns">
+			<div class="row collapse">
+				@helper.form(action = routes.Application.search) {
+				<div class="eight mobile-three columns">
+					@helper.inputText(searchForm("term"), 'placeholder -> "Search term")
+				</div>
+				<div class="four mobile-one columns">
+					<input type="submit" value="search" class="postfix button expand"/>
+				</div>
+				}
+			</div>
+		</div>
+		<div class="four columns">
+			<h3>Tags</h3>
+			@tags.map { tag =>
+			<span class="cloud-@Seq.fill(1)(scala.util.Random.nextInt(10))"><a href="@routes.Tags.show(tag.id)">@tag.title</a></span>
+			}
+		</div>
+	</div>
+</div>
+}

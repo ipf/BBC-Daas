@@ -1,0 +1,77 @@
+@(message: String, searchForm: Form[String], tags: Iterator[Tag], categories: Iterator[Category])(implicit request: play.api.mvc.RequestHeader)
+@import securesocial.core.SecureSocial
+
+@main(message) {
+
+<div class="row">
+	<div class="twelve columns">
+		<div class="eight columns">
+			<section class="row">
+				<article class="panel">
+					<h2>Building Blocks for Cloud Data as a Service</h2>
+					<img class="right" src="@routes.Assets.at("images/logo2.png")" alt="" />
+					<p>Get your open data uploaded and processed in seconds!</p>
+					<p>Just sign-up or register with a supported Provider and start uploading your data.</p>
+				</article>
+			</section>
+			<section class="row">
+				<div class="four columns">
+					<article class="panel">
+						<h6>Easy sign-up</h6>
+						<p>@if(SecureSocial.currentUser.isDefined){
+							<a href="/logout">Logout</a>
+								} else {
+								<a href="/login">Login</a> with your Google account.
+								}
+						</p>
+					</article>
+				</div>
+				<div class="four columns">
+					<article class="panel">
+						<h6>Use our API</h6>
+						<p>Check out our <a href="@routes.Application.apiDocumentation">API</a> <br />
+						or just directly go to <a href="@routes.Files.list">Datasets</a>.
+						</p>
+
+					</article>
+				</div>
+				<div class="four columns">
+					<article class="panel">
+						<h6>Built on scalable technology</h6>
+						<p>Learn more about the building blocks of this site in our <a href="@routes.Application.about">About</a> section.</p>
+					</article>
+				</div>
+			</section>
+		</div>
+		<aside class="four columns">
+			<div class="row collapse">
+				@helper.form(action = routes.Application.search) {
+				<div class="eight mobile-three columns">
+					@helper.inputText(searchForm("term"), 'placeholder -> "Search term")
+				</div>
+				<div class="four mobile-one columns">
+					<input type="submit" value="Search" class="postfix button expand"/>
+				</div>
+				}
+			</div>
+		</aside>
+		<aside class="four columns">
+			<div class="row collapse">
+				<h3>Categories</h3>
+				<ul class="disc">
+				@categories.map { category =>
+				<li><a href="@routes.Categories.show(category.id)">@category.title</a></li>
+				}
+				</ul>
+			</div>
+		</aside>
+		<aside class="four columns">
+			<h3>Tags</h3>
+			@tags.map { tag =>
+			<span class="cloud-@Seq.fill(1)(scala.util.Random.nextInt(10))"><a href="@routes.Tags.show(tag.id)">@tag.title</a></span>
+			}
+		</aside>
+	</div>
+</div>
+
+}

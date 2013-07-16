@@ -1,0 +1,26 @@
+@(message: String)(implicit request: play.api.mvc.RequestHeader)
+
+@main(message) {
+
+<div class="row">
+	<div class="twelve columns">
+		<div class="eight columns">
+
+			<h3>@message</h3>
+
+			<p>Administration interface for BBC-DaaS</p>
+
+		</div>
+		<div class="four columns">
+			<div class="row collapse">
+				<h3>Topics</h3>
+				<ul class="disc">
+					<li><a href="@routes.Tags.list#list-tags">Tags</a></li>
+					<li><a href="@routes.Categories.list">Categories</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+}

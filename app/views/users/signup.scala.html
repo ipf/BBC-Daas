@@ -1,0 +1,13 @@
+@(message: String)(implicit request: play.api.mvc.RequestHeader)
+
+@main("Sign up") {
+<div class="row">
+	<div class="twelve columns">
+		<div class="eight columns">
+			<h2>Hello @message!</h2>
+			<p>Thank you for your registration.<br />
+			Your username is <strong>@message</strong></p>
+		</div>
+	</div>
+</div>
+}

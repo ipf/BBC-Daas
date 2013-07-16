@@ -1,0 +1,76 @@
+@(category: Category, tags: Iterator[Tag], categories: Iterator[Category], datasets: com.novus.salat.dao.SalatMongoCursor[models.Dataset])(implicit request: play.api.mvc.RequestHeader)
+
+@main("Datasets for category " + category.title) {
+
+<div class="row">
+	<div class="eight columns">
+
+		<h3>@category.title</h3>
+
+		@if(datasets.count > 0) {
+		<p>@datasets.count Datasets categorized with <em>@category.title</em>:</p>
+
+		<table>
+			<thead>
+			<th>Title</th>
+			<th>Description</th>
+			<th>Downloads</th>
+			<th>Posted</th>
+			</thead>
+			<tbody>
+			@for(dataset <- datasets) {
+			<tr>
+				<td><a href="@routes.Files.show(dataset.id)">@dataset.title</a></td>
+				<td>@dataset.description</td>
+				<td>@dataset.downloads</td>
+				<td>@dataset.uploadDate.format("yyyy-MM-dd")</td>
+			</tr>
+			}
+			</tbody>
+		</table>
+		} else {
+			<p>Currently no datasets categorized with <em>@category.title</em>.</p>
+		}
+		@if(datasets.count > 10) {
+		<ul class="pagination">
+			<li class="arrow unavailable"><a href="">&laquo;</a></li>
+			<li class="current"><a href="">1</a></li>
+			<li><a href="">2</a></li>
+			<li><a href="">3</a></li>
+			<li><a href="">4</a></li>
+			<li class="unavailable"><a href="">&hellip;</a></li>
+			<li><a href="">12</a></li>
+			<li><a href="">13</a></li>
+			<li class="arrow"><a href="">&raquo;</a></li>
+		</ul>
+		}
+	</div>
+	<div class="four columns">
+		<div class="row collapse">
+			<div class="eight mobile-three columns">
+				<input type="text"/>
+			</div>
+			<div class="four mobile-one columns">
+				<a href="#" class="postfix button expand">Search</a>
+			</div>
+		</div>
+	</div>
+	<div class="four columns">
+		<div class="row collapse">
+			<h3>Categories</h3>
+			<ul class="disc">
+				@categories.map { category =>
+				<li><a href="@routes.Categories.show(category.id)">@category.title</a></li>
+				}
+			</ul>
+		</div>
+	</div>
+	<div class="four columns">
+		<h3>Tags</h3>
+		@tags.map { tag =>
+		<span class="cloud-@Seq.fill(1)(scala.util.Random.nextInt(10))"><a href="@routes.Tags.show(tag.id)">@tag.title</a></span>
+		}
+	</div>
+</div>
+
+}

@@ -1,0 +1,61 @@
+@(message: String, dataset: Option[models.Dataset], data: com.mongodb.casbah.MongoCursor)(implicit request: play.api.mvc.RequestHeader)
+
+@main(message) {
+
+<div class="row">
+	<div class="twelve columns">
+		<div class="row">
+		<div class="eight columns">
+			<h3>Dataset &raquo;@dataset.get.title&laquo;</h3>
+
+			@if(dataset.get.description){
+				<p>@dataset.get.description</p>
+			}
+		</div>
+			<div class="four columns">
+				<h6>Meta</h6>
+				<p>
+					<strong>Filename</strong>: <a href="@routes.Files.download(dataset.get.id)" class="files-download" title="Download file @dataset.get.fileName">&nbsp;@dataset.get.fileName</a>
+					<br />
+					<strong>Category</strong>: <a href="@routes.Categories.show(dataset.get.category.id)">@dataset.get.category.title</a>
+					<br />
+					<strong>Downloads</strong>: @dataset.get.downloads
+					<br />
+					<strong>Posted</strong>: @dataset.get.uploadDate.format("yyyy-MM-dd") by</strong>: @dataset.get.uploadedBy
+					<br />
+					<strong>Rows</strong>: @data.size
+				</p>
+			</div>
+		</div>
+
+		<script>
+			require(['libs/jquery.dataTables', 'libs/FixedColumns'], function () {
+				var oTable =$('#dataTable').dataTable({
+					"sScrollX": "100%",
+					"bAutoWidth": false,
+			});
+				new FixedColumns(oTable);
+			});
+			</script>
+			<table id="dataTable">
+				<thead>
+					<tr>
+					@for(th <- dataset.get.headers){
+						<th>@th</th>
+					}
+					</tr>
+				</thead>
+				<tbody>
+				@for(d <- data){
+					<tr>
+						@for(th <- dataset.get.headers){
+						<td nowrap="nowrap">@d.get(th)</td>
+						}
+					</tr>
+				}
+				</tbody>
+			</table>
+
+	</div>
+</div>
+}

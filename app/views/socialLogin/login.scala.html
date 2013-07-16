@@ -1,0 +1,63 @@
+@(loginForm: Form[(String,String)], errorMsg: Option[String] = None)(implicit request: RequestHeader)
+
+@import helper._
+@import securesocial.core.Registry
+@import securesocial.core.AuthenticationMethod._
+@import securesocial.core.providers.UsernamePasswordProvider.UsernamePassword
+
+
+@views.html.main(Messages("securesocial.login.title")) {
+	<div class="row">
+		<div class="twelve columns">
+			<div class="eight columns">
+	<div class="page-header">
+		<h2>@Messages("securesocial.login.title")</h2>
+	</div>
+
+	@errorMsg.map { msg =>
+		<div class="alert alert-box">
+			<strong>@Messages(msg)</strong>
+			<a href="" class="close">&times;</a>
+		</div>
+	}
+
+	@request.flash.get("success").map { msg =>
+		<div class="alert-box success">
+			<strong>@msg</strong>
+			<a href="" class="close">&times;</a>
+		</div>
+	}
+
+	@request.flash.get("error").map { msg =>
+		<div class="alert-box alert">
+			<strong>@msg</strong>
+			<a href="" class="close">&times;</a>
+		</div>
+	}
+
+	@defining( Registry.providers.all.values.filter( _.id != UsernamePassword) ) { externalProviders =>
+
+		@if( externalProviders.size > 0 ) {
+		<div class="clearfix">
+			<p>Registration at BBC-DaaS is fairly easy. Just use your existing Google Account (we assume that you got one) and grant access to your user details when using the button below:</p>
+			@for(p <- externalProviders) {
+				<p>@p @provider(p.id)</p>
+			}
+		</div>
+		}
+
+		@Registry.providers.get(UsernamePassword).map { up =>
+			<div class="clearfix">
+				@if( externalProviders.size > 0 ) {
+					<p>@Messages("securesocial.login.useEmailAndPassword")</p>
+				} else {
+					<p>@Messages("securesocial.login.useEmailAndPasswordOnly")</p>
+				}
+				@provider("userpass", Some(loginForm))
+			</div>
+		}
+	}
+			</div>
+		</div>
+	</div>
+}

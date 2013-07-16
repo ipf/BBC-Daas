@@ -1,0 +1,72 @@
+@(categoryOptions: Seq[(String, String)], categoryForm: Form[Category], categories: com.novus.salat.dao.SalatMongoCursor[models.Category])(implicit flash: play.api.mvc.Flash, request: play.api.mvc.RequestHeader)
+
+@import helper._
+
+@main("List Categories") {
+<script type="text/template" id="list-categories-template">
+	<h3><%- title  %></h3>
+
+	<ul class="disc">
+		<% _.each(categories, function(category) {%>
+		<li><a href="/tag/<%- category.attributes.id %>" contenteditable="true" property="content"><%- category.attributes.title %></a></li>
+		<% }); %>
+	</ul>
+</script>
+<div class="row">
+	<div class="twelve columns">
+		<div class="eight columns">
+			<h2>Categories</h2>
+			<p>Datasets can be categorized into hierarchical categories.</p>
+			<div class="row">
+				<div class="five columns">
+					<div class="row collapse">
+						@form(routes.Categories.create) {
+						<div class="eight mobile-three columns">
+							@inputText(categoryForm("title"), 'placeholder -> "Category", '_label -> "Category")
+						</div>
+					</div>
+					<div class="row collapse">
+						@select(
+						categoryForm("parent"),
+						categoryOptions,
+						'_label -> "Parent", '_default -> "-- Choose a parent category --",
+						'_showConstraints -> false
+						)
+					</div>
+					<div class="row collapse">
+						<div class="five mobile-one columns">
+							<input type="submit" class="button expand postfix" value="Add" />
+						</div>
+						}
+					</div>
+					@flash.get("success").map { message =>
+						<div class="alert-box success">
+							<strong>Done!</strong> @message
+							<a href="" class="close">&times;</a>
+						</div>
+					}
+				</div>
+			</div>
+			<div class="available-categories">
+				<div id="list-categories" about="available-categories">
+					<h3>Available categories</h3>
+					<ul class="disc">
+						@for(c <- categories) {
+							<li>@c.title</li>
+						}
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="four columns">
+			<div class="row collapse">
+				<h3>Topics</h3>
+				<ul class="disc">
+					<li><a href="@routes.Tags.list">Tags</a></li>
+					<li><a href="@routes.Categories.list">Categories</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+}

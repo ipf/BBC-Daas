@@ -1,0 +1,31 @@
+@(message: String, reader: com.github.tototoshi.csv.CSVReader)(implicit flash: play.api.mvc.Flash, request: play.api.mvc.RequestHeader)
+
+@main(message) {
+
+<div class="row">
+	<div class="twelve columns">
+		@flash.get("success").map { fmessage =>
+		<div class="alert-box success">
+			<strong>Done!</strong> @fmessage
+			<a href="" class="close">&times;</a>
+		</div>
+		}
+		@flash.get("fail").map { fmessage =>
+			<div class="alert-box alert">
+				<strong>Error!</strong> @fmessage
+				<a href="" class="close">&times;</a>
+			</div>
+		}
+		<table>
+		@for(rows <- reader.toStream) {
+			<tr>
+			@for(row <- rows) {
+				<td>@row.toString</td>
+			}
+			</tr>
+		}
+		</table>
+	</div>
+</div>
+
+}

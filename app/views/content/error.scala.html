@@ -1,0 +1,15 @@
+@(message: String)(implicit request: play.api.mvc.RequestHeader)
+
+@main(message) {
+
+<div class="row">
+	<div class="twelve columns">
+		<section class="eight columns">
+
+			<h3>An error occured</h3>
+
+			<p>@message</p>
+		</section>
+	</div>
+</div>
+}

@@ -1,0 +1,52 @@
+@(message: String, searchForm: Form[String], tags: Iterator[Tag])(implicit request: play.api.mvc.RequestHeader)
+
+@main(message) {
+
+<div class="row">
+	<section class="eight columns">
+		<article>
+
+			<h3>@message</h3>
+
+			<p>
+				Stefan Edlich<br/>
+				FB VI / Labor Online Learning<br/><br/>
+
+				Beuth Hochschule für Technik Berlin<br/>
+				Luxemburger Str. 10<br/>
+				13353 Berlin<br/><br/>
+
+				Call: (+49)(0)15.77.189.42.16<br/>
+				E-Mail <a href="mailto:edlich@@gmail.com">edlich@@gmail.com</a>
+			</p>
+
+			<h3>Technical realization</h3>
+			<p>
+				Ingo Pfennigstorf<br />
+				<a href="mailto:i.pfennigstorf@@gmail.com">i.pfennigstorf@@gmail.com</a><br />
+			</p>
+			<p>
+				<a href="@routes.Application.about">About our services</a>
+			</p>
+		</article>
+	</section>
+	<aside class="four columns">
+		<div class="row collapse">
+			@helper.form(action = routes.Application.search) {
+			<div class="eight mobile-three columns">
+				@helper.inputText(searchForm("term"), 'placeholder -> "Search term")
+			</div>
+			<div class="four mobile-one columns">
+				<input type="submit" value="search" class="postfix button expand"/>
+			</div>
+			}
+		</div>
+	</aside>
+	<aside class="four columns">
+		<h3>Tags</h3>
+		@tags.map { tag =>
+			<span class="cloud-@Seq.fill(1)(scala.util.Random.nextInt(10))"><a href="@routes.Tags.show(tag.id)">@tag.title</a></span>
+		}
+	</aside>
+</div>
+}

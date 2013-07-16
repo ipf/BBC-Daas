@@ -1,0 +1,18 @@
+@(message: String)(implicit request: play.api.mvc.RequestHeader)
+
+@main("Login") {
+<div class="row">
+	<div class="twelve columns">
+		<div class="eight columns">
+			<h3>@message</h3>
+
+			<p>Already registered users can simply use one of the buttons below to login into our services.<br />
+			In case you haven't registered yet - simply use our <a href="#">registration</a> page.</p>
+
+			<p><a class="btn-auth btn-github" href="https://github.com/login/oauth/authorize?client_id=3e22db2d878e21fc0fe5&scope=user">Log in with GitHub</a></p>
+
+			<p><a class="btn-auth btn-google" href="https://accounts.google.com/o/oauth2/auth?client_id=765349548262-o0c3te4fp24tupgsc3skv5e69rlnuo0k.apps.googleusercontent.com&response_type=code&redirect_uri=http://localhost:9000/signup&scope=https://www.googleapis.com/auth/userinfo.email">Log in with Google</a></p>
+		</div>
+	</div>
+</div>
+}

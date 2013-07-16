@@ -1,0 +1,61 @@
+@(message: String, searchForm: Form[String], tags: Iterator[Tag])(implicit request: play.api.mvc.RequestHeader)
+
+@main(message) {
+
+<div class="row">
+	<section class="eight columns">
+		<article>
+
+			<h3>@message</h3>
+
+			<p>New to BBC-DaaS? We will give you a short introduction on how to use our services.</p>
+			<p>Interested in technical details of this Site? Just jump to the <a href="#technical">technical stuff</a> section</p>
+
+			<h4>How to use our services</h4>
+			<h5>Registration</h5>
+			<p>Registration is very simple. Just register with your github or google account to use our services complementary.</p>
+			<h5>Login</h5>
+			<p>Login with your github or google account. In the near future we are planning to extend the login to also use services such as facebook or twtitter.</p>
+			<h5>Uploading Datasets</h5>
+			<p>Upload Datasets as CSV file is currently supported</p>
+			<h4 id="technical">Technical stuff</h4>
+			<p>This website uses the following <em>backend</em> framworks and technologies:
+				<ul class="disc">
+					<li>Play Framework</li>
+					<li>Scala</li>
+					<li>MongoDB</li>
+					<li>Elastic Search</li>
+				</ul>
+			</p>
+			<p>This website uses the following <em>frontend</em> frameworks and technologies:
+				<ul class="disc">
+					<li>Zurb Foundation</li>
+					<li>Compass</li>
+					<li>jQuery</li>
+					<li>require.js</li>
+					<li>Backbone.js</li>
+					<li>grunt</li>
+				</ul>
+			</p>
+		</article>
+	</section>
+	<aside class="four columns">
+		<div class="row collapse">
+			@helper.form(action = routes.Application.search) {
+			<div class="eight mobile-three columns">
+				@helper.inputText(searchForm("term"), 'placeholder -> "Search term")
+			</div>
+			<div class="four mobile-one columns">
+				<input type="submit" value="search" class="postfix button expand"/>
+			</div>
+			}
+		</div>
+	</aside>
+	<aside class="four columns">
+		<h3>Tags</h3>
+		@tags.map { tag =>
+		<span class="cloud-@Seq.fill(1)(scala.util.Random.nextInt(10))"><a href="@routes.Tags.show(tag.id)">@tag.title</a></span>
+		}
+	</aside>
+</div>
+}

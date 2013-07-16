@@ -1,0 +1,14 @@
+#list-tags {
+	table {
+		td {
+			.delete {
+				color: red;
+			}
+			.edit {
+				background-image: url('../images/pencil.png');
+				padding: 0px 6px;
+				background-repeat: no-repeat;
+			}
+		}
+	}
+}

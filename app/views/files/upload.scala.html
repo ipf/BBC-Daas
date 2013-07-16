@@ -1,0 +1,43 @@
+@(files: List[File], fileForm: Form[File], tags: Iterator[Tag], categories: Seq[(String, String)])(implicit request: play.api.mvc.RequestHeader)
+
+@import helper._
+
+@main("List Files") {
+<div class="row" id="upload-dataset">
+	<div class="twelve columns">
+		<div class="eight columns">
+			<h2>Upload a new Dataset</h2>
+			<div class="row collapse">
+				@form(routes.Files.create, 'enctype -> "multipart/form-data") {
+				@inputText(fileForm("Title"), 'placeholder -> "Title")
+				@textarea(fileForm("description"), 'placeholder -> "Description")
+			</div>
+			<div class="eight columns">
+
+				<div class="row">
+					@select(
+					fileForm("category"),
+					categories,
+					'_label -> "Category", '_default -> "-- Choose a category --",
+					'_showConstraints -> false
+					)
+				</div>
+				<div class="eight columns">
+
+					<div class="row tags">
+						<fieldset>
+							<legend>Tags</legend>
+							@tags.map { tag =>
+								<input type="checkbox" name="tags[]" class="checkbox" id="tag-@tag.id" value="@tag.id"/><label for="tag-@tag.id">@tag.title</label>
+							}
+						</fieldset>
+						@inputFile(fileForm("File"))
+						<input type="submit" value="Upload" class="button mobile six columns">
+					</div>
+				}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+}

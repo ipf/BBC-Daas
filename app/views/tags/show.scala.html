@@ -1,0 +1,39 @@
+@(tag: Tag, tags: Iterator[Tag])(implicit request: play.api.mvc.RequestHeader)
+
+@main("Analytics") {
+
+<div class="row">
+	<div class="twelve columns">
+		<div class="eight columns">
+
+			<h3>@tag.title</h3>
+
+			<p>Datasets tagged with <em>@tag.title</em>:</p>
+		</div>
+		<div class="four columns">
+			<div class="row collapse">
+				<div class="eight mobile-three columns">
+					<input type="text"/>
+				</div>
+				<div class="four mobile-one columns">
+					<a href="#" class="postfix button expand">Search</a>
+				</div>
+			</div>
+		</div>
+		<div class="four columns">
+			<div class="row collapse">
+				<h3>Categories</h3>
+
+				<div id="tree1"></div>
+			</div>
+		</div>
+		<div class="four columns">
+			<h3>Tags</h3>
+			@tags.map { tag =>
+			<span class="cloud-@Seq.fill(1)(scala.util.Random.nextInt(10))"><a href="@routes.Tags.show(tag.id)">@tag.title</a></span>
+			}
+		</div>
+	</div>
+</div>
+
+}

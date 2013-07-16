@@ -1,0 +1,15 @@
+dl {
+	label {
+		display: none;
+	}
+	dd {
+		&.info {
+			display: none;
+		}
+	}
+}
+.controls {
+	.help-block {
+		display: none;
+	}
+}
